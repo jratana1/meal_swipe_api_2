@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
+  # skip_before_action :verify_authenticity_token, except: [:create]
 
   # GET /users
   def index
@@ -15,13 +16,19 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
+        byebug
+        user = User.find_or_create_by(uid: auth['uid'], provider: auth['provider']) do |u|
+          u.providerImage = auth['info']['image']
+          u.name = auth['info']['name']
+          u.email = auth['info']['email']
+        end
 
-    if @user.save
-      render json: @user, status: :created, location: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
+      if user
+        #save image whenever its a login - since they can expire
+        user.providerImage = auth['info']['Providerimage']
+        token = encode_token(user_id: user.id)
+        byebug
+      end
   end
 
   # PATCH/PUT /users/1
@@ -48,4 +55,8 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email, :provider, :uid)
     end
+
+    def auth
+      request.env['omniauth.auth']
+    end 
 end
