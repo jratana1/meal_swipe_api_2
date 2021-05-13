@@ -7,6 +7,7 @@ gem 'omniauth-oauth2'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'jwt'
+gem 'dotenv-rails'
 # gem "omniauth-rails_csrf_protection"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

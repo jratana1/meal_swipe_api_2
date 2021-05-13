@@ -1,7 +1,6 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-    configure do |config|
-        config.path_prefix = '/auth'
-    end
+    OmniAuth.config.allowed_request_methods = [:get, :post]
+
     provider :google_oauth2, Rails.application.credentials.google[:client_id], Rails.application.credentials.google[:client_secret]
     provider :facebook, Rails.application.credentials.facebook[:app_id], Rails.application.credentials.facebook[:app_secret]
 end
