@@ -7,6 +7,7 @@ gem 'omniauth-oauth2'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'jwt'
+gem 'dotenv-rails'
 gem "json"
 gem "http"
 gem "optparse"
