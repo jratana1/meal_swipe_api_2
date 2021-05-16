@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :restaurants
   get '/authenticate-google', to: 'sessions#authenticate_google'
   get '/authenticate-facebook', to: 'sessions#authenticate_facebook'
   get 'auth/:provider/callback', to: 'users#create'

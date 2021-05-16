@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-        byebug
+
         user = User.find_or_create_by(uid: auth['uid'], provider: auth['provider']) do |u|
           u.providerImage = auth['info']['image']
           u.name = auth['info']['name']
@@ -27,7 +27,6 @@ class UsersController < ApplicationController
         #save image whenever its a login - since they can expire
         user.providerImage = auth['info']['Providerimage']
         token = encode_token(user_id: user.id)
-        byebug
       end
   end
 
