@@ -4,9 +4,9 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    users = User.all
 
-    render json: @users
+    render json: users
   end
 
   # GET /users/1
@@ -25,8 +25,12 @@ class UsersController < ApplicationController
 
       if user
         #save image whenever its a login - since they can expire
-        user.providerImage = auth['info']['Providerimage']
+        user.providerImage = auth['info']['image']
         token = encode_token(user_id: user.id)
+        # render json: { user: UserSerializer.new(user), jwt: token }, status: :accepted
+        render json: user
+      else
+        render json: { error: 'failed to create/find user' }, status: :not_acceptable
       end
   end
 
