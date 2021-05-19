@@ -11,6 +11,7 @@ gem 'dotenv-rails'
 gem "json"
 gem "http"
 gem "optparse"
+gem 'jsonapi-serializer'
 
 # gem "omniauth-rails_csrf_protection"
 
