@@ -3,29 +3,18 @@ class YelpApiAdaptor < ApplicationRecord
     SEARCH_PATH = "/v3/businesses/search"
     BUSINESS_PATH = "/v3/businesses/"
     SEARCH_LIMIT = 50
+    API_URL = "https://api.yelp.com/v3/graphql"
     
-    def self.api_search(location, categories = "restaurants", offset = rand(500))
-      url = "#{API_HOST}#{SEARCH_PATH}"
-      params = {
-        term: "food",
-        categories: categories,
-        location: location,
-        limit: SEARCH_LIMIT,
-        offset: offset
-      }
-      response = HTTP.auth("Bearer #{ENV['API_KEY']}").get(url, params: params)
-      response.parse["businesses"]
-    end
-  
-    def self.api_business_reviews(business_id)
-      url = "#{API_HOST}#{BUSINESS_PATH}#{business_id}/reviews"
-      response = HTTP.auth("Bearer #{ENV['API_KEY']}").get(url)
-      response.parse
+    def self.api_search(location, categories = "restaurants", offset = 1)
+
+      body = "{search(term: \"food\", location: \"#{location}\", categories: \"#{categories}\", limit: 50, offset: #{offset}) {business {id, name, location{address1, city, state, postal_code}, photos}}}"
+      response = HTTP.auth("Bearer #{ENV['API_KEY']}").headers("Content-Type" => "application/graphql").post("https://api.yelp.com/v3/graphql", :body => body)
+      response.parse["data"]["search"]["business"]
     end
     
     def self.api_business(business_id)
-      url = "#{API_HOST}#{BUSINESS_PATH}#{business_id}"
-      response = HTTP.auth("Bearer #{ENV['API_KEY']}").get(url)
+      body = "{business(id: \"#{business_id}\") {id, name}}"
+      response = HTTP.auth("Bearer #{ENV['API_KEY']}").headers("Content-Type" => "application/graphql").post("https://api.yelp.com/v3/graphql", :body => body)
       response.parse
     end
     
