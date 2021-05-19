@@ -2,6 +2,10 @@ class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
 
   # GET /restaurants
+  def swipe
+    byebug
+  end
+
   def index
     @restaurants = Restaurant.all
   end
