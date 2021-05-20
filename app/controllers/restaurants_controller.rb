@@ -11,7 +11,7 @@ class RestaurantsController < ApplicationController
      #need to change to current user
     user =User.first
     rest_attr = YelpApiAdaptor.yelp_rest_hash_converter(restaurant_params)
-    restaurant = Restaurant.find_or_create_by(yelp_id: params[:yelp_id])
+    restaurant = Restaurant.find_or_create_by(yelp_id: params["restaurant"]["id"])
     restaurant.update(rest_attr)
    
     user.restaurants << restaurant
@@ -20,7 +20,10 @@ class RestaurantsController < ApplicationController
   end
 
   def index
-    @restaurants = Restaurant.all
+    #need to set current user
+    user= User.first
+
+    render json: user.restaurants
   end
 
   # GET /restaurants/1
