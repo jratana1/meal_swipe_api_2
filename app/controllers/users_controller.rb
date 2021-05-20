@@ -27,8 +27,8 @@ class UsersController < ApplicationController
         #save image whenever its a login - since they can expire
         user.providerImage = auth['info']['image']
         token = encode_token(user_id: user.id)
-        # render json: { user: UserSerializer.new(user), jwt: token }, status: :accepted
-        render json: user
+        render json: { user: user, jwt: token }, status: :accepted
+        # render json: user
       else
         render json: { error: 'failed to create/find user' }, status: :not_acceptable
       end

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'auth/failure' => 'users#index'
 
   post '/swipe' => 'restaurants#swipe'
+  post '/swiperight' => 'restaurants#swiperight'
+
 
   resources :restaurants
   resources :users
