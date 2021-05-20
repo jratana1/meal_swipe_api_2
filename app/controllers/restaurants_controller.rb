@@ -3,7 +3,8 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants
   def swipe
-    byebug
+    results = YelpApiAdaptor.api_search("philly")
+    render json: results 
   end
 
   def index
