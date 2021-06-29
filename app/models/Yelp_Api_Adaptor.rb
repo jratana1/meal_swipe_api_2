@@ -17,5 +17,15 @@ class YelpApiAdaptor < ApplicationRecord
       response.parse
     end
     
-   
+    def self.yelp_rest_hash_converter(hash)
+      rest_hash = {}
+      rest_hash[:name] = hash["name"]
+      rest_hash[:address] = hash["location"]["address1"]
+      rest_hash[:city] = hash["location"]["city"]
+      rest_hash[:state] = hash["location"]["state"]
+      rest_hash[:postal_code] = hash["location"]["postal_code"]
+      rest_hash[:yelp_id] = hash["id"]
+      rest_hash[:photos] = hash["photos"][0]
+      rest_hash
+  end
 end

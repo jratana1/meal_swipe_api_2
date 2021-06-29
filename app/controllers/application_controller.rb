@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-    def encode_token(user_id)
+      def encode_token(user_id)
         JWT.encode(user_id, Rails.application.credentials.jwt[:secret])
       end
     

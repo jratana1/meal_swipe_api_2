@@ -16,19 +16,18 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-
-        user = User.find_or_create_by(uid: auth['uid'], provider: auth['provider']) do |u|
-          u.providerImage = auth['info']['image']
-          u.name = auth['info']['name']
-          u.email = auth['info']['email']
-        end
+      user = User.find_or_create_by(uid: auth['uid'], provider: auth['provider']) do |u|
+        u.providerImage = auth['info']['image']
+        u.name = auth['info']['name']
+        u.email = auth['info']['email']
+      end
 
       if user
         #save image whenever its a login - since they can expire
         user.providerImage = auth['info']['image']
         token = encode_token(user_id: user.id)
-        render json: { user: user, jwt: token }, status: :accepted
-        # render json: user
+        # render json: { user: user, jwt: token }, status: :accepted
+        redirect_to('http://localhost:3001/' + "?token=#{token}")
       else
         render json: { error: 'failed to create/find user' }, status: :not_acceptable
       end
