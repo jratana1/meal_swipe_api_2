@@ -9,20 +9,18 @@ class RestaurantsController < ApplicationController
 
   def swiperight
      #need to change to current user
-    user =User.first
     rest_attr = YelpApiAdaptor.yelp_rest_hash_converter(restaurant_params)
     restaurant = Restaurant.find_or_create_by(yelp_id: params["restaurant"]["id"])
     restaurant.update(rest_attr)
    
-    user.restaurants << restaurant
+    RestaurantUser.create(restaurant_id:restaurant.id, user_id:current_user.id)
 
-    render json: user.restaurants
+    render json: current_user.restaurants
   end
 
   def index
     #need to set current user
-    user= User.first
-
+    user= current_user
     render json: user.restaurants
   end
 
