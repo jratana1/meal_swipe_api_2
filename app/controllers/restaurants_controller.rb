@@ -3,12 +3,11 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants
   def swipe
-    results = YelpApiAdaptor.api_search("philly")
+    results = YelpApiAdaptor.api_search(params[:location],params[:term], params[:offset])
     render json: results 
   end
 
   def swiperight
-     #need to change to current user
     rest_attr = YelpApiAdaptor.yelp_rest_hash_converter(restaurant_params)
     restaurant = Restaurant.find_or_create_by(yelp_id: params["restaurant"]["id"])
     restaurant.update(rest_attr)
