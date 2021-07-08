@@ -9,7 +9,7 @@ class RestaurantsController < ApplicationController
 
   def swiperight
     rest_attr = YelpApiAdaptor.yelp_rest_hash_converter(restaurant_params)
-    restaurant = Restaurant.find_or_create_by(yelp_id: params["restaurant"]["id"])
+    restaurant = Restaurant.create_with(name: params["restaurant"]["name"]).find_or_create_by(yelp_id: params["restaurant"]["id"])
    
     RestaurantUser.create(restaurant_id:restaurant.id, user_id:current_user.id)
 
