@@ -1,5 +1,5 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
+  before_action :set_restaurant, only: [:edit, :update, :destroy]
 
   # GET /restaurants
   def swipe
@@ -10,7 +10,6 @@ class RestaurantsController < ApplicationController
   def swiperight
     rest_attr = YelpApiAdaptor.yelp_rest_hash_converter(restaurant_params)
     restaurant = Restaurant.find_or_create_by(yelp_id: params["restaurant"]["id"])
-    restaurant.update(rest_attr)
    
     RestaurantUser.create(restaurant_id:restaurant.id, user_id:current_user.id)
 
@@ -25,6 +24,9 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants/1
   def show
+    results = YelpApiAdaptor.api_business(params[:id])
+
+    render json: results 
   end
 
   # GET /restaurants/new

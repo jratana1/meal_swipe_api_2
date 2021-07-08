@@ -12,7 +12,7 @@ class YelpApiAdaptor < ApplicationRecord
     end
     
     def self.api_business(business_id)
-      body = "{business(id: \"#{business_id}\") {id, name}}"
+      body = "{business(id: \"#{business_id}\") {id, name, display_phone, url, rating, location{address1, city, state, postal_code}, reviews{text}, photos}}"
       response = HTTP.auth("Bearer #{ENV['API_KEY']}").headers("Content-Type" => "application/graphql").post("https://api.yelp.com/v3/graphql", :body => body)
       response.parse
     end
@@ -20,6 +20,7 @@ class YelpApiAdaptor < ApplicationRecord
     def self.yelp_rest_hash_converter(hash)
       rest_hash = {}
       rest_hash[:name] = hash["name"]
+      rest_hash[:display_phone] = hash["display_phone"]
       rest_hash[:address] = hash["location"]["address1"]
       rest_hash[:city] = hash["location"]["city"]
       rest_hash[:state] = hash["location"]["state"]
