@@ -12,7 +12,7 @@ class YelpApiAdaptor < ApplicationRecord
     end
     
     def self.api_business(business_id)
-      body = "{business(id: \"#{business_id}\") {id, name, display_phone, url, rating, location{address1, city, state, postal_code}, reviews{text}, photos}}"
+      body = "{business(id: \"#{business_id}\") {id, name, phone, display_phone, url, rating, location{address1, city, state, postal_code}, reviews{text}, photos}}"
       response = HTTP.auth("Bearer #{ENV['API_KEY']}").headers("Content-Type" => "application/graphql").post("https://api.yelp.com/v3/graphql", :body => body)
       response.parse
     end
