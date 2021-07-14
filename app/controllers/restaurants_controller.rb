@@ -1,5 +1,5 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: [:edit, :update, :destroy]
+  before_action :set_restaurant, only: [:edit, :update]
 
   # GET /restaurants
   def swipe
@@ -60,18 +60,20 @@ class RestaurantsController < ApplicationController
 
   # DELETE /restaurants/1
   def destroy
-    @restaurant.destroy
-    redirect_to restaurants_url, notice: 'Restaurant was successfully destroyed.'
+    restaurant = Restaurant.find_by(yelp_id: params[:id])
+    RestaurantUser.find_by(restaurant_id: restaurant.id, user_id: current_user.id).destroy
+
+    render json: current_user.restaurants
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_restaurant
-      @restaurant = Restaurant.find(params[:id])
+      @restaurant = Restaurant.find(params[:yelp_id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def restaurant_params
-      params.require(:restaurant).permit(:id, :name, :state, :postal_code, :address, :display_phone, :location => {}, :photos => [])
+      params.require(:restaurant).permit(:yelp_id, :id, :name, :state, :postal_code, :address, :display_phone, :location => {}, :photos => [])
     end
 end
