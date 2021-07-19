@@ -7,8 +7,8 @@ Rails.application.routes.draw do
 
   post '/swipe' => 'restaurants#swipe'
   post '/swiperight' => 'restaurants#swiperight'
-
-
+  
+  resources :likes, only: [:create, :destroy]
   resources :restaurants
   resources :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

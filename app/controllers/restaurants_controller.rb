@@ -29,42 +29,42 @@ class RestaurantsController < ApplicationController
     render json: results 
   end
 
-  # GET /restaurants/new
-  def new
-    @restaurant = Restaurant.new
-  end
-
-  # GET /restaurants/1/edit
-  def edit
-  end
-
-  # POST /restaurants
-  def create
-    @restaurant = Restaurant.new(restaurant_params)
-
-    if @restaurant.save
-      redirect_to @restaurant, notice: 'Restaurant was successfully created.'
-    else
-      render :new
+    # DELETE /restaurants/1
+    def destroy
+      restaurant = Restaurant.find_by(yelp_id: params[:id])
+      RestaurantUser.find_by(restaurant_id: restaurant.id, user_id: current_user.id).destroy
+  
+      render json: current_user.restaurants
     end
-  end
 
-  # PATCH/PUT /restaurants/1
-  def update
-    if @restaurant.update(restaurant_params)
-      redirect_to @restaurant, notice: 'Restaurant was successfully updated.'
-    else
-      render :edit
-    end
-  end
+  # # GET /restaurants/new
+  # def new
+  #   @restaurant = Restaurant.new
+  # end
 
-  # DELETE /restaurants/1
-  def destroy
-    restaurant = Restaurant.find_by(yelp_id: params[:id])
-    RestaurantUser.find_by(restaurant_id: restaurant.id, user_id: current_user.id).destroy
+  # # GET /restaurants/1/edit
+  # def edit
+  # end
 
-    render json: current_user.restaurants
-  end
+  # # POST /restaurants
+  # def create
+  #   @restaurant = Restaurant.new(restaurant_params)
+
+  #   if @restaurant.save
+  #     redirect_to @restaurant, notice: 'Restaurant was successfully created.'
+  #   else
+  #     render :new
+  #   end
+  # end
+
+  # # PATCH/PUT /restaurants/1
+  # def update
+  #   if @restaurant.update(restaurant_params)
+  #     redirect_to @restaurant, notice: 'Restaurant was successfully updated.'
+  #   else
+  #     render :edit
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
