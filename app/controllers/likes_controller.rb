@@ -8,10 +8,9 @@ class LikesController < ApplicationController
     end
 
     def destroy
-        restaurant = Restaurant.find_by(yelp_id: params[:id])
-        RestaurantUser.find_by(restaurant_id: restaurant.id, user_id: current_user.id).destroy
+        Like.find_by(restaurant_id: @restaurant.id, user_id: current_user.id).destroy
     
-        render json: current_user.restaurants
+        render json: current_user.likes
     end
 
     private

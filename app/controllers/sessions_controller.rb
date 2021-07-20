@@ -6,4 +6,9 @@ class SessionsController < ApplicationController
   def authenticate_google
     redirect_to '/auth/google_oauth2'
   end
+
+  def load
+    user= current_user
+    render json: {:restaurants => user.restaurants, :likes => user.likes}
   end
+end
