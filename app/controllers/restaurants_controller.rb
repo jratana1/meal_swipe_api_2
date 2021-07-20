@@ -32,7 +32,13 @@ class RestaurantsController < ApplicationController
     # DELETE /restaurants/1
     def destroy
       restaurant = Restaurant.find_by(yelp_id: params[:id])
+      like = Like.find_by(restaurant_id: restaurant.id, user_id: current_user.id)
+      
       RestaurantUser.find_by(restaurant_id: restaurant.id, user_id: current_user.id).destroy
+      
+      if like
+        like.destroy
+      end
   
       render json: current_user.restaurants
     end
