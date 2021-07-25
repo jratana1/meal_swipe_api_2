@@ -3,8 +3,14 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants
   def swipe
+    if params[:location].blank?
     results = YelpApiAdaptor.api_search(params[:location],params[:term], params[:offset], params[:latitude], params[:longitude])
     render json: results
+    else
+    results = YelpApiAdaptor.api_search(params[:location],params[:term], params[:offset])
+    render json: results
+    end
+
   end
 
   def swiperight
