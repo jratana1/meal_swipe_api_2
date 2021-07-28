@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
 
   def load
     user= current_user
+    if user.restaurants? 
     render json: {:restaurants => user.restaurants, :likes => user.likes}
   end
 end
