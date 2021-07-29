@@ -9,7 +9,14 @@ class SessionsController < ApplicationController
 
   def load
     user= current_user
-    if user.restaurants? 
+    if user.restaurants
     render json: {:restaurants => user.restaurants, :likes => user.likes}
+    end
+  end
+
+  def guestLogin
+    user= User.find_by(name: "Guest")
+    token = encode_token(user_id: user.id)
+    render json: {:token => token}
   end
 end

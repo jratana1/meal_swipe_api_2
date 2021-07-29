@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'users#create'
   get 'auth/failure' => 'users#index'
   get '/load', to: 'sessions#load'
+  get '/guestLogin', to: 'sessions#guestLogin'
+
 
   post '/swipe' => 'restaurants#swipe'
   post '/swiperight' => 'restaurants#swiperight'
