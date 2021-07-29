@@ -19,4 +19,5 @@ class SessionsController < ApplicationController
     token = encode_token(user_id: user.id)
     render json: {:token => token}
   end
+
 end
