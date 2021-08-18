@@ -3,12 +3,23 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants
   def swipe
+    filter = ""  
+    params[:filter].each do |key, value|
+      if value && !value.blank?
+        if filter.blank?
+          filter = "#{key}"
+        else
+          filter += ",#{key}"
+        end
+      end
+    end
+
     if params[:location].blank?
-    results = YelpApiAdaptor.api_search(params[:location],params[:term], params[:offset], params[:latitude], params[:longitude])
-    render json: results
+      results = YelpApiAdaptor.api_search(params[:location], filter, params[:offset], params[:latitude], params[:longitude])
+      render json: results
     else
-    results = YelpApiAdaptor.api_search(params[:location],params[:term], params[:offset])
-    render json: results
+      results = YelpApiAdaptor.api_search(params[:location],filter, params[:offset])
+      render json: results
     end
 
   end
