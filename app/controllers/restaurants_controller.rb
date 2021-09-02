@@ -26,10 +26,14 @@ class RestaurantsController < ApplicationController
   end
 
   def swiperight
-    rest_attr = YelpApiAdaptor.yelp_rest_hash_converter(restaurant_params)
     restaurant = Restaurant.create_with(name: params["restaurant"]["name"], city: params["restaurant"]["location"]["city"]).find_or_create_by(yelp_id: params["restaurant"]["id"])
-   
+    
     RestaurantUser.create(restaurant_id:restaurant.id, user_id:current_user.id)
+
+    params["restaurant"]["categories"].each do |category|
+      category = Category.create_with(alias: category["alias"]).find_or_create_by(title: category["title"])
+      restaurant.categories << category
+    end
 
     render json: current_user.restaurants
   end
@@ -69,6 +73,6 @@ class RestaurantsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def restaurant_params
-      params.require(:restaurant).permit(:yelp_id, :id, :name, :state, :postal_code, :address, :display_phone, :location => {}, :photos => [])
+      params.require(:restaurant).permit(:yelp_id, :id, :name, :state, :postal_code, :address, :display_phone, :location => {}, :photos => [], :categories => [])
     end
 end
