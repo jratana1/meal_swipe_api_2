@@ -39,7 +39,6 @@ class RestaurantsController < ApplicationController
   end
 
   def index
-    #need to set current user
     user= current_user
     render json: user.restaurants
   end

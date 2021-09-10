@@ -12,6 +12,8 @@ gem "json"
 gem "http"
 gem "optparse"
 gem 'jsonapi-serializer'
+gem 'has_friendship'
+gem 'faker'
 
 # gem "omniauth-rails_csrf_protection"
 
