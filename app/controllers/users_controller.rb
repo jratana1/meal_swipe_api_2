@@ -26,8 +26,8 @@ class UsersController < ApplicationController
         user.providerImage = auth['info']['image']
         token = encode_token(user_id: user.id)
 
-        redirect_to('http://localhost:3001/#/' + "?token=#{token}")
-        # redirect_to('https://jratana1.github.io/react-meal-swipe/#/' + "?token=#{token}")
+        # redirect_to('http://localhost:3001/#/' + "?token=#{token}")
+        redirect_to('https://jratana1.github.io/react-meal-swipe/#/' + "?token=#{token}")
 
       else
         render json: { error: 'failed to create/find user' }, status: :not_acceptable
