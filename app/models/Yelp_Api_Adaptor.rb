@@ -7,13 +7,13 @@ class YelpApiAdaptor < ApplicationRecord
     
     def self.api_search(location, categories = "restaurants", offset = 1, open_now = false, latitude = 0, longitude = 0, term = "food")
       body = "{search(term: \"#{term}\", location: \"#{location}\", categories: \"#{categories}\", limit: 10, offset: #{offset}, latitude: #{latitude}, longitude: #{longitude}, open_now: #{open_now}) 
-      {business {id, name, location{address1, city, state, postal_code}, categories {title, alias}, photos}}}"
+      {business {id, name, phone, display_phone, url, rating, location{address1, city, state, postal_code}, reviews{text}, categories {title, alias}, photos}}}"
       response = HTTP.auth("Bearer #{ENV['API_KEY']}").headers("Content-Type" => "application/graphql").post("https://api.yelp.com/v3/graphql", :body => body)
       response.parse["data"]["search"]["business"]
     end
     
     def self.api_business(business_id)
-      body = "{business(id: \"#{business_id}\") {id, name, phone, display_phone, url, rating, location{address1, city, state, postal_code}, reviews{text}, photos}}"
+      body = "{business(id: \"#{business_id}\") {id, name, phone, display_phone, url, rating, location{address1, city, state, postal_code}, reviews{text}, categories {title, alias}, photos}}"
       response = HTTP.auth("Bearer #{ENV['API_KEY']}").headers("Content-Type" => "application/graphql").post("https://api.yelp.com/v3/graphql", :body => body)
       response.parse
     end
